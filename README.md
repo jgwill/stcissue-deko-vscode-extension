@@ -1,4 +1,4 @@
-# STCIssue Deko VSCode Extension
+# --@STCIssue Deko VSCode Extension
 
 This is a Visual Studio Code extension that checks for the presence of '@STCIssue' in the README.md file of your workspace or folder. If found, it extracts the content following '@STCIssue' until the end of the line and displays a warning with that message when the folder or workspace is opened.
 
