@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { parseReadme } from './utils/readme-parser';
+import { TextDecoder } from 'util';
 
 export function activate(context: vscode.ExtensionContext) {
     vscode.workspace.onDidChangeWorkspaceFolders(e => {
@@ -9,10 +10,13 @@ export function activate(context: vscode.ExtensionContext) {
     });
 }
 
+
 function checkReadme(folder: vscode.WorkspaceFolder) {
-    const readmePath = `${folder.uri.fsPath}/README.md`;
-    vscode.workspace.fs.readFile(vscode.Uri.file(readmePath)).then((content: Uint8Array) => {
-        const issue = parseReadme(content.toString());
+    const readmePath = vscode.Uri.file(`${folder.uri.fsPath}/README.md`);
+    vscode.workspace.fs.readFile(readmePath).then((content: Uint8Array) => {
+        const decoder = new TextDecoder();
+        const strContent = decoder.decode(content);
+        const issue = parseReadme(strContent);
         if (issue) {
             vscode.window.showWarningMessage(issue);
         }
